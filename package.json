@@ -1,7 +1,10 @@
 {
   "name": "fancyrocks",
   "version": "0.0.0",
+  "description": "Send beautiful images of rocks",
   "private": true,
+  "main": "src/server.ts",
+  "author": "Ceberus132",
   "scripts": {
     "deploy": "wrangler deploy",
     "dev": "wrangler dev",
