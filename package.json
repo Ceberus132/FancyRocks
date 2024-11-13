@@ -18,5 +18,10 @@
     "typescript": "^5.5.2",
     "vitest": "2.0.5",
     "wrangler": "^3.60.3"
+  },
+  "dependencies": {
+    "discord-api-types": "^0.37.104",
+    "discord-interactions": "^4.1.0",
+    "itty-router": "^5.0.18"
   }
 }
