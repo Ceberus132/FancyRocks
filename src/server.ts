@@ -12,6 +12,14 @@ export interface Env {
 const router = Router();
 
 // simple response to verify that the worker bot is running
-router.get('/', async (request: Request) => {
+router.get('/', async () => {
 	return new Response('Success');
 });
+
+// export server
+const server = {
+	fetch: async function (request: Request, env: Env) {
+		return router.fetch(request, env)
+	}
+};
+export default server;
