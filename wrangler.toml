@@ -11,5 +11,6 @@ compatibility_flags = ["nodejs_compat"]
 enabled = true
 
 [[r2_buckets]]
-binding = "FancyRocksImages"
+binding = "FancyRockImages"
 bucket_name = "fancyrocks-images"
+preview_bucket_name = "fancyrocks-images"
