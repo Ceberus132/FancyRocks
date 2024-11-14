@@ -2,6 +2,7 @@
   "name": "fancyrocks",
   "version": "0.0.0",
   "description": "Send beautiful images of rocks",
+  "type": "module",
   "private": true,
   "main": "src/server.ts",
   "author": "Ceberus132",
@@ -10,14 +11,16 @@
     "dev": "wrangler dev",
     "start": "wrangler dev",
     "test": "vitest",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "register": "npx tsx --env-file=.dev.vars src/registerCommands.ts"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.5.2",
     "@cloudflare/workers-types": "^4.20241112.0",
     "typescript": "^5.5.2",
     "vitest": "2.0.5",
-    "wrangler": "^3.60.3"
+    "wrangler": "^3.60.3",
+    "tsx": "^4.19.2"
   },
   "dependencies": {
     "discord-api-types": "^0.37.104",
