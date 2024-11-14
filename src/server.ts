@@ -19,6 +19,8 @@ router.post('/', async (request: Request, env: Env) => {
 	}
 });
 
+router.all('*', () => new Response('Not Found.', { status: 404 }));
+
 // function to verify the discord request
 async function verifyRequest(request: Request, env: Env) {
 	const signature = request.headers.get('x-signature-ed25519');
