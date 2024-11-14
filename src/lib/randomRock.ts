@@ -1,5 +1,3 @@
-import { Env } from '../server';
-
 export async function getRock(env: Env) {
 	const amount = await env.FancyRockImages.list();
 	const imageNumber = Math.floor(Math.random() * amount.objects.length);
