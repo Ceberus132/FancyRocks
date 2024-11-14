@@ -1,5 +1,6 @@
 import { Router, json } from 'itty-router';
 import { InteractionResponseType, InteractionType, verifyKey } from 'discord-interactions';
+import commands from './commands';
 
 // init itty-router
 const router = Router();
@@ -16,6 +17,28 @@ router.post('/', async (request: Request, env: Env) => {
 
 	if (interaction.type === InteractionType.PING) {
 		return json({ type: InteractionResponseType.PONG });
+	}
+	// catch all application (Slash) commands
+	if (interaction.type === InteractionType.APPLICATION_COMMAND) {
+		// find the command the user tries to execute and throw an error if it's not found
+		const command = commands.find(cmd => cmd.data.name.toLowerCase() === interaction.data.name.toLowerCase());
+		if (!command) return json({error: 'Unknown Command'}, {status: 400})
+		// try to execute the command, throw error on failure
+		try {
+			const response = await command.execute(interaction, env)
+			return json(response)
+		} catch (e) {
+			return json({
+				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+				data: {
+					embeds: [{
+						color: parseInt('ff8700', 16),
+						interaction: 'Something went wrong!',
+						description: `${e}`
+					}]
+				}
+			})
+		}
 	}
 });
 
