@@ -8,9 +8,8 @@ export const fancyrock = {
 		description: 'Get a fancy Rock!',
 	},
 	execute: async (request: Request, env: Env) => {
-		// get rock image data & random color
-		const rock = await getRock(env);
-		const color = await getColor();
+		// get rock image & random color
+		const [rock, color] = await Promise.all([getRock(env), getColor()]);
 		// initialize form and append discord interaction response
 		const form = new FormData();
 		form.append('payload_json', JSON.stringify({
