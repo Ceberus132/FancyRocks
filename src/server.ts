@@ -26,7 +26,7 @@ router.post('/', async (request: Request, env: Env) => {
 		// try to execute the command, throw error on failure
 		try {
 			const response = await command.execute(interaction, env)
-			return json(response)
+			return new Response(response)
 		} catch (e) {
 			return json({
 				type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
