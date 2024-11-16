@@ -3,7 +3,7 @@ import { InteractionType, APIBaseInteraction, APIChatInputApplicationCommandInte
 import { getRock } from '@lib/randomRock';
 import { getColor } from '@lib/randomColor';
 
-export const givefancyrock = {
+export const throwfancyrock = {
 	data: {
 		name: 'throwfancyrock',
 		description: 'Throw a fancy rock at someone >:D',
