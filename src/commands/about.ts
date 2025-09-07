@@ -1,5 +1,6 @@
 import { InteractionResponseType } from 'discord-interactions';
 import { getColor } from '@lib/randomColor';
+import { countRocks } from '@lib/countRocks';
 import { json } from 'itty-router';
 
 export const about = {
@@ -8,8 +9,8 @@ export const about = {
 		description: 'Get Information about the bot :D',
 	},
 	execute: async (request: Request, env: Env) => {
-		// get random colour code
-		const color = await getColor()
+		// get stone count & random colour
+		const [rocks, color] = await Promise.all([countRocks(env), getColor()]);
 		// initialize form and append discord interaction response
 		const form = new FormData();
 		form.append('payload_json', JSON.stringify({
@@ -22,6 +23,14 @@ export const about = {
 						url: 'https://cdn.discordapp.com/app-icons/1226141852395372738/363dee8b64fd97d07095573017ce9ab1.png'
 					},
 					fields: [
+						{
+							name: `Currently serving ${rocks} rocks 🗿`,
+							value: '',
+						},
+						{
+							name: '------------------------------',
+							value: '',
+						},
 						{
 							name: 'Support this project ❤️',
 							value: 'https://patreon.com/ceberus132 \n',
@@ -40,7 +49,7 @@ export const about = {
 						},
 						{
 							name: 'Take a look at the Roadmap to see what\'s yet to come! 🌌',
-							value: '[Watch what the bot will do in the future!](https://trello.com/b/tk4D9N3X/fancy-rock) \n',
+							value: '[Watch what the bot will do in the future!](https://github.com/users/Ceberus132/projects/2/views/1) \n',
 						},
 						{
 							name: '------------------------------',
@@ -56,7 +65,7 @@ export const about = {
 						},
 						{
 							name: 'Check out the Changelog on the Bots Website! :o',
-							value: 'https://butterfulrocks.ceberus132.workers.dev/ \n',
+							value: 'https://fancyrocks.ceberus132.gg/ \n',
 						},
 					],
 					footer: {
