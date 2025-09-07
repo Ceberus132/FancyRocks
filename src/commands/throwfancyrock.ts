@@ -37,7 +37,7 @@ export const throwfancyrock = {
 					{
 						color: parseInt(color, 16),
 						image: { url: 'attachment://rock.jpg' },
-						description: `**<@${receiverUserID}>, <@${senderUserID}> threw a fancy rock after you :O**`,
+						description: `**<@${receiverUserID}>, <@${senderUserID}> threw a fancy rock after you >:3**`,
 					},
 				],
 				attachments: [
