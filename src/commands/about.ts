@@ -5,17 +5,18 @@ import { json } from 'itty-router';
 export const about = {
 	data: {
 		name: 'about',
-		description: "Get Information about the bot :D",
+		description: 'Get Information about the bot :D',
 	},
 	execute: async (request: Request, env: Env) => {
-		// get random colour
-		const colourCode = await getColor()
-		// append discord interaction response
-		return json({
+		// get random colour code
+		const color = await getColor()
+		// initialize form and append discord interaction response
+		const form = new FormData();
+		form.append('payload_json', JSON.stringify({
 			type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
 			data: {
 				embeds: [{
-					color: parseInt(colourCode, 16),
+					color: parseInt(color, 16),
 					title: 'Get to know everything about the bot :3',
 					thumbnail: {
 						url: 'https://cdn.discordapp.com/app-icons/1226141852395372738/363dee8b64fd97d07095573017ce9ab1.png'
@@ -62,8 +63,9 @@ export const about = {
 						icon_url: 'https://cdn.discordapp.com/app-icons/1226141852395372738/363dee8b64fd97d07095573017ce9ab1.png',
 						text: `Fancy Rocks v${env.VERSION} | Made with ❤ by Ceberus132`
 					}
-				}],
-			},
-		})
-	},
+				}]
+			}
+		}));
+		return form;
+	}
 };
