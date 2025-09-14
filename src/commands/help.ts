@@ -38,6 +38,10 @@ export const help = {
 							name: '',
 							value: '`/help` Get this list of all commands ✨',
 						},
+						{
+							name: '',
+							value: '`/invite` Invite this bot to all your servers >:D',
+						},
 					],
 					footer: {
 						icon_url: 'https://cdn.discordapp.com/app-icons/1226141852395372738/363dee8b64fd97d07095573017ce9ab1.png',
