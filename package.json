@@ -1,6 +1,6 @@
 {
   "name": "fancyrocks",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Send beautiful images of rocks",
   "type": "module",
   "private": true,
