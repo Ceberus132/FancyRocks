@@ -66,7 +66,7 @@ async function verifyRequest(request: Request, env: Env) {
 
 // export server
 const server = {
-	verifyDiscordRequest: verifyDiscordRequest,
+	verifyRequest: verifyRequest,
 	fetch: async function (request: Request, env: Env) {
 		return router.fetch(request, env)
 	}
