@@ -13,7 +13,7 @@ router.get('/', async (request: Request) => {
 // default route for all requests sent from Discord. JSON payload described here: https://discord.com/developers/docs/interactions/receiving-and-responding#interaction-object
 router.post('/', async (request: Request, env: Env) => {
 	// check if the request is valid and if it is an interaction
-    	const { isValid, interaction } = await verifyDiscordRequest(request, env);
+    	const { isValid, interaction } = await verifyRequest(request, env);
     	if (!isValid || !interaction) {
     		return new Response('Bad request signature.', { status: 401 });
     	}
