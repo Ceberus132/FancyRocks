@@ -11,7 +11,7 @@ router.get('/', async (request: Request) => {
 });
 
 // default route for all requests sent from Discord. JSON payload described here: https://discord.com/developers/docs/interactions/receiving-and-responding#interaction-object
-router.post('/', verifyKeyMiddleware(process.env.DISCORD_PUBLIC_KEY), async (request: Request, env: Env) => {
+router.post('/', verifyKeyMiddleware('4a8811927e54c4c14570b44f10df5e543e4a041e2258d96812fab372365055db'), async (request: Request, env: Env) => {
 	if (interaction.type === InteractionType.PING) {
 		return json({ type: InteractionResponseType.PONG });
 	}
