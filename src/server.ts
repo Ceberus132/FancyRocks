@@ -12,18 +12,12 @@ router.get('/', async (request: Request) => {
 
 // default route for all requests sent from Discord. JSON payload described here: https://discord.com/developers/docs/interactions/receiving-and-responding#interaction-object
 router.post('/', async (request: Request, env: Env) => {
-	// check if the request is valid and if it is an interaction
-    	const { isValid, interaction } = await verifyRequest(request, env);
-    	if (!isValid || !interaction) {
-    		return new Response('Bad request signature.', { status: 401 });
-    	}
+	const { isValid, interaction } = await verifyRequest(request, env);
+	if (!isValid) return new Response('Bad request signature.', { status: 401 });
 
-    	// used during the initial webhook handshake, required to configure the webhook
-    	if (interaction.type === InteractionType.PING) {
-    		return json({
-    			type: InteractionResponseType.PONG,
-    		});
-    	}
+	if (interaction.type === InteractionType.PING) {
+		return json({ type: InteractionResponseType.PONG });
+	}
 	// catch all application (Slash) commands
 	if (interaction.type === InteractionType.APPLICATION_COMMAND) {
 		// find the command the user tries to execute and throw an error if it's not found
@@ -55,18 +49,13 @@ async function verifyRequest(request: Request, env: Env) {
 	const signature = request.headers.get('x-signature-ed25519');
 	const timestamp = request.headers.get('x-signature-timestamp');
 	const body = await request.text();
-
-	// check if it valid and return bool
-	const isValidRequest = signature && timestamp && verifyKey(body, signature, timestamp, env.DISCORD_PUBLIC_KEY);
-	if (!isValidRequest) {
-		return { isValid: false };
-	}
-	return { interaction: JSON.parse(body), isValid: true };
+	// check for validity and send the interaction
+	const isValid = signature && timestamp && await verifyKey(body, signature, timestamp, env.DISCORD_PUBLIC_KEY);
+	return { isValid, interaction: isValid ? JSON.parse(body) : null };
 }
 
 // export server
 const server = {
-	verifyRequest: verifyRequest,
 	fetch: async function (request: Request, env: Env) {
 		return router.fetch(request, env)
 	}
