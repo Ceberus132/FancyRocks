@@ -1,7 +1,6 @@
 import { InteractionResponseType } from 'discord-interactions';
 import { getColor } from '@lib/randomColor';
 import { countRocks } from '@lib/countRocks';
-import { json } from 'itty-router';
 
 export const about = {
 	data: {
@@ -65,7 +64,7 @@ export const about = {
 						},
 						{
 							name: 'Check out the Changelog on the Bots Website! :o',
-							value: 'https://fancyrocks.ceberus132.gg/ \n',
+							value: 'https://fancyrocks.ceb.gg/ \n',
 						},
 					],
 					footer: {
