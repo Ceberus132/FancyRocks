@@ -6,18 +6,24 @@ import commands from './commands';
 const router = Router();
 
 // simple response to verify that the worker bot is running
-router.get('/', async () => {
+router.get('/', async (request: Request) => {
 	return new Response('Success');
 });
 
 // default route for all requests sent from Discord. JSON payload described here: https://discord.com/developers/docs/interactions/receiving-and-responding#interaction-object
 router.post('/', async (request: Request, env: Env) => {
-	const { isValid, interaction } = await verifyRequest(request, env);
-	if (!isValid) return new Response('Bad request signature.', { status: 401 });
+	// check if the request is valid and if it is an interaction
+    	const { isValid, interaction } = await verifyDiscordRequest(request, env);
+    	if (!isValid || !interaction) {
+    		return new Response('Bad request signature.', { status: 401 });
+    	}
 
-	if (interaction.type === InteractionType.PING) {
-		return json({ type: InteractionResponseType.PONG });
-	}
+    	// used during the initial webhook handshake, required to configure the webhook
+    	if (interaction.type === InteractionType.PING) {
+    		return json({
+    			type: InteractionResponseType.PONG,
+    		});
+    	}
 	// catch all application (Slash) commands
 	if (interaction.type === InteractionType.APPLICATION_COMMAND) {
 		// find the command the user tries to execute and throw an error if it's not found
@@ -49,13 +55,18 @@ async function verifyRequest(request: Request, env: Env) {
 	const signature = request.headers.get('x-signature-ed25519');
 	const timestamp = request.headers.get('x-signature-timestamp');
 	const body = await request.text();
-	// check for validity and send the interaction
-	const isValid = signature && timestamp && verifyKey(body, signature, timestamp, env.DISCORD_PUBLIC_KEY);
-	return { isValid, interaction: isValid ? JSON.parse(body) : null };
+
+	// check if it valid and return bool
+	const isValidRequest = signature && timestamp && verifyKey(body, signature, timestamp, env.DISCORD_PUBLIC_KEY);
+	if (!isValidRequest) {
+		return { isValid: false };
+	}
+	return { interaction: JSON.parse(body), isValid: true };
 }
 
 // export server
 const server = {
+	verifyDiscordRequest: verifyDiscordRequest,
 	fetch: async function (request: Request, env: Env) {
 		return router.fetch(request, env)
 	}
