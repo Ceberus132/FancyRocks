@@ -11,12 +11,13 @@ router.get('/', async (request: Request) => {
 });
 
 // default route for all requests sent from Discord. JSON payload described here: https://discord.com/developers/docs/interactions/receiving-and-responding#interaction-object
-router.post('/interaction', async (request: Request, env: Env) => {
-	const { isValid, interaction } = await verifyRequest(request, env);
+router.post('/', async (request: Request, env: Env) => {
+	const { isValid, interaction } = await server.verifyRequest(request, env);
 	if (!isValid) return new Response('Bad request signature.', { status: 401 });
 
 	if (interaction.type === InteractionType.PING) {
-		return json({ type: InteractionResponseType.PONG });
+		console.log('FCK')
+		return new JsonResponse({type: InteractionResponseType.PONG,});
 	}
 	// catch all application (Slash) commands
 	if (interaction.type === InteractionType.APPLICATION_COMMAND) {
@@ -46,21 +47,20 @@ router.all('*', () => new Response('Not Found.', { status: 404 }));
 
 // function to verify the discord request
 async function verifyRequest(request: Request, env: Env) {
-	const signature = request.headers.get('X-Signature-Ed25519');
-	const timestamp = request.headers.get('X-Signature-Timestamp');
+	const signature = request.headers.get('x-signature-ed25519');
+  	const timestamp = request.headers.get('x-signature-timestamp');
 	const body = await request.text();
 	// check for validity and send the interaction
 	const isValid = signature && timestamp && verifyKey(body, signature, timestamp, env.DISCORD_PUBLIC_KEY);
 	if (!isValid) {
-		return res.status(401).end('Bad request signature');
+    	return { isValid: false };
 	}
 	return { interaction: JSON.parse(body), isValid: true };
 }
 
 // export server
 const server = {
-	fetch: async function (request: Request, env: Env) {
-		return router.fetch(request, env)
-	}
+	verifyRequest,
+	fetch: router.fetch,
 };
 export default server;
