@@ -64,7 +64,7 @@ export const about = {
 						},
 						{
 							name: 'Check out the Changelog on the Bots Website! :o',
-							value: 'https://fancyrocks.ceb.gg/ \n',
+							value: 'https://ceb.gg/fancyrocks/ \n',
 						},
 					],
 					footer: {
