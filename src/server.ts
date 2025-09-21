@@ -52,7 +52,7 @@ async function verifyRequest(request: Request, env: Env) {
   	const timestamp = request.headers.get('x-signature-timestamp');
 	const body = await request.text();
 	// check for validity and send the interaction
-	const isValid = signature && timestamp && await verifyKey(body, signature, timestamp, env.DISCORD_PUBLIC_KEY);
+	const isValid = signature && timestamp && (await verifyKey(body, signature, timestamp, env.DISCORD_PUBLIC_KEY));
 	if (!isValid) {
     	return { isValid: false };
 	}
