@@ -17,7 +17,7 @@ router.post('/', async (request: Request, env: Env) => {
 
 	if (interaction.type === InteractionType.PING) {
 		console.log('FCK')
-		return json({ type: InteractionResponseType.PONG });
+		return json({ type: 1 });
 	}
 	// catch all application (Slash) commands
 	if (interaction.type === InteractionType.APPLICATION_COMMAND) {
@@ -53,6 +53,7 @@ async function verifyRequest(request: Request, env: Env) {
 	const body = await request.text();
 	// check for validity and send the interaction
 	const isValid = signature && timestamp && (await verifyKey(body, signature, timestamp, env.DISCORD_PUBLIC_KEY));
+	console.log(`valid?` + $isValid)
 	if (!isValid) {
     	return { isValid: false };
 	}
