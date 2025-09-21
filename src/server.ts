@@ -17,7 +17,7 @@ router.post('/', async (request: Request, env: Env) => {
 
 	if (interaction.type === InteractionType.PING) {
 		console.log('FCK')
-		return new JsonResponse({type: InteractionResponseType.PONG,});
+		return json({ type: InteractionResponseType.PONG });
 	}
 	// catch all application (Slash) commands
 	if (interaction.type === InteractionType.APPLICATION_COMMAND) {
@@ -47,6 +47,7 @@ router.all('*', () => new Response('Not Found.', { status: 404 }));
 
 // function to verify the discord request
 async function verifyRequest(request: Request, env: Env) {
+	console.log('verify?')
 	const signature = request.headers.get('x-signature-ed25519');
   	const timestamp = request.headers.get('x-signature-timestamp');
 	const body = await request.text();
