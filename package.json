@@ -15,16 +15,16 @@
     "register": "npx tsx --env-file=.dev.vars src/registerCommands.ts"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.5.2",
+    "@cloudflare/vitest-pool-workers": "^0.9.3",
     "@cloudflare/workers-types": "^4.20241112.0",
     "tsx": "^4.19.2",
     "typescript": "^5.5.2",
-    "vitest": "2.0.5",
-    "wrangler": "^3.87.0"
+    "vitest": "^3.2.4",
+    "wrangler": "^4.38.0"
   },
   "dependencies": {
-    "discord-api-types": "^0.37.104",
-    "discord-interactions": "^4.1.0",
-    "itty-router": "^5.0.18"
+    "discord-api-types": "^0.37.120",
+    "discord-interactions": "^4.3.0",
+    "itty-router": "^5.0.22"
   }
 }
