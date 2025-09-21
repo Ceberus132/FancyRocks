@@ -51,7 +51,7 @@ async function verifyRequest(request: Request, env: Env) {
 	const body = await request.text();
 	// check for validity and send the interaction
 	const isValid = signature && timestamp && verifyKey(body, signature, timestamp, env.DISCORD_PUBLIC_KEY);
-	if (!isValidRequest) {
+	if (!isValid) {
 		return { isValid: false };
 	}
 	return { interaction: JSON.parse(body), isValid: true };
